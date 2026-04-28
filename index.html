@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#E24B4A">
+<title>sy 的 618 装机清单 · A+C 版</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;background:#f5f5f7;color:#1d1d1f;line-height:1.6;font-size:15px}
+body{padding:16px 14px 80px;max-width:640px;margin:0 auto}
+
+.hero{background:linear-gradient(135deg,#E24B4A 0%,#A32D2D 100%);color:#fff;border-radius:16px;padding:22px 20px;margin-bottom:18px;box-shadow:0 6px 20px rgba(226,75,74,.25)}
+.hero h1{font-size:20px;font-weight:600;margin-bottom:6px;letter-spacing:.5px}
+.hero .sub{opacity:.9;font-size:13px;margin-bottom:14px}
+.hero .total{display:flex;align-items:flex-end;gap:8px;margin-top:8px}
+.hero .total .num{font-size:34px;font-weight:700;letter-spacing:-1px;line-height:1}
+.hero .total .u{font-size:14px;opacity:.85;padding-bottom:3px}
+.hero .budget{font-size:12px;opacity:.9;margin-top:6px;padding-top:10px;border-top:1px solid rgba(255,255,255,.2)}
+
+.tabs{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:8px 14px;background:#fff;border:1px solid #e5e5ea;border-radius:20px;font-size:13px;color:#636366;font-weight:500;cursor:pointer;transition:all .2s}
+.tab.active{background:#1d1d1f;color:#fff;border-color:#1d1d1f}
+
+.section{display:none}
+.section.active{display:block}
+
+.section-title{display:flex;align-items:center;gap:10px;margin:18px 0 12px;font-size:15px;font-weight:600;color:#1d1d1f}
+.section-title .dot{width:8px;height:8px;border-radius:50%;background:#E24B4A}
+.section-title .count{font-size:11px;color:#8e8e93;font-weight:400;margin-left:auto}
+
+.card{background:#fff;border-radius:14px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.card .label{font-size:11px;color:#8e8e93;letter-spacing:.5px;margin-bottom:3px;font-weight:500}
+.card .name{font-size:15px;font-weight:600;color:#1d1d1f;line-height:1.3}
+.card .price{font-size:18px;font-weight:700;color:#E24B4A;white-space:nowrap;line-height:1}
+.card .price .u{font-size:12px;font-weight:500;opacity:.7}
+.card .meta{margin-top:10px;padding-top:10px;border-top:1px dashed #e5e5ea;font-size:12.5px;color:#636366;line-height:1.7}
+.card .meta .row{display:flex;gap:8px;margin-bottom:4px}
+.card .meta .row:last-child{margin-bottom:0}
+.card .meta .k{color:#8e8e93;flex-shrink:0;min-width:52px}
+.card .meta .v{color:#1d1d1f;word-break:break-all}
+.card .search{display:inline-block;background:#f2f2f7;padding:3px 9px;border-radius:6px;font-family:"SF Mono",Menlo,monospace;font-size:12px;color:#E24B4A;margin-top:2px}
+
+.alts{margin-top:10px;padding-top:10px;border-top:1px dashed #e5e5ea}
+.alts .alts-title{font-size:11px;color:#8e8e93;font-weight:500;letter-spacing:.5px;margin-bottom:6px}
+.alt-item{display:flex;gap:8px;padding:6px 0;font-size:12.5px;line-height:1.5;border-bottom:1px dotted #eee}
+.alt-item:last-child{border-bottom:0}
+.alt-item .tag{flex-shrink:0;width:44px;font-size:10.5px;font-weight:600;padding:2px 0;text-align:center;border-radius:4px;letter-spacing:.3px;height:20px}
+.alt-item .body{flex:1}
+.alt-item .body .n{color:#1d1d1f;font-weight:500}
+.alt-item .body .p{color:#E24B4A;font-weight:600}
+.alt-item .body .note{color:#8e8e93;font-size:11.5px;margin-top:1px}
+.tag-main{background:#FCEBEB;color:#A32D2D}
+.tag-eq{background:#E6F1FB;color:#185FA5}
+.tag-up{background:#EAF3DE;color:#3B6D11}
+.tag-down{background:#F1EFE8;color:#5F5E5A}
+.tag-no{background:#fff;color:#c7c7cc;border:1px dashed #e5e5ea}
+
+.rule{margin-top:10px;padding:8px 10px;background:#FAEEDA;border-left:3px solid #EF9F27;border-radius:6px;font-size:12px;color:#633806;line-height:1.6}
+.rule b{font-weight:600;color:#412402}
+
+.chan{margin-top:8px;font-size:11.5px;color:#636366;line-height:1.6}
+.chan .c-jd{color:#185FA5}
+.chan .c-tm{color:#A32D2D}
+.chan .c-pdd{color:#3B6D11}
+
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;margin-right:6px}
+.b-self{background:#E6F1FB;color:#185FA5}
+.b-brand{background:#EAF3DE;color:#3B6D11}
+.b-hot{background:#FCEBEB;color:#A32D2D}
+
+.timeline{background:#fff;border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.tl-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed #e5e5ea}
+.tl-item:last-child{border-bottom:0}
+.tl-date{flex-shrink:0;width:70px;font-size:12px;color:#E24B4A;font-weight:600}
+.tl-body{flex:1;font-size:13.5px;color:#1d1d1f;line-height:1.6}
+.tl-body b{font-weight:600;color:#E24B4A}
+
+.check{background:#fff;border-radius:14px;padding:14px 16px 4px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.check-item{display:flex;gap:10px;padding:8px 0;font-size:13.5px;color:#1d1d1f;border-bottom:1px dashed #f0f0f0}
+.check-item:last-child{border-bottom:0}
+.check-item .box{flex-shrink:0;width:18px;height:18px;border:1.5px solid #c7c7cc;border-radius:4px;margin-top:2px;cursor:pointer;transition:all .15s}
+.check-item.done .box{background:#34c759;border-color:#34c759;position:relative}
+.check-item.done .box::after{content:"";position:absolute;left:5px;top:1px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.check-item.done .txt{color:#8e8e93;text-decoration:line-through}
+.check-item .txt{flex:1;line-height:1.5}
+
+.tip{background:linear-gradient(135deg,#FAEEDA 0%,#FAC775 100%);border-radius:14px;padding:14px 16px;margin-bottom:12px;font-size:13px;color:#633806;line-height:1.7}
+.tip b{font-weight:600;color:#412402}
+
+.chan-card{background:#fff;border-radius:14px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04);font-size:13px;line-height:1.7}
+.chan-card .h{font-weight:600;font-size:14px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.chan-card .lv{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500}
+.lv-1{background:#E6F1FB;color:#185FA5}
+.lv-2{background:#FAEEDA;color:#854F0B}
+.lv-3{background:#EAF3DE;color:#3B6D11}
+.lv-4{background:#F1EFE8;color:#5F5E5A}
+.chan-card .desc{color:#636366;font-size:12.5px}
+
+.summary{background:#1d1d1f;color:#fff;border-radius:14px;padding:16px 18px;margin-bottom:14px}
+.summary .row{display:flex;justify-content:space-between;padding:6px 0;font-size:14px}
+.summary .row.total{padding-top:12px;margin-top:8px;border-top:1px solid rgba(255,255,255,.15);font-weight:600;font-size:16px}
+.summary .row .k{opacity:.8}
+.summary .row .v{font-variant-numeric:tabular-nums}
+
+.footer{text-align:center;font-size:11px;color:#c7c7cc;margin-top:20px;padding:10px}
+
+.legend{background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04);font-size:12px;line-height:1.9;color:#636366}
+.legend .row{display:flex;gap:8px;align-items:flex-start}
+.legend .tag{flex-shrink:0;width:44px;font-size:10.5px;font-weight:600;padding:2px 0;text-align:center;border-radius:4px;letter-spacing:.3px;height:20px}
+
+@media (prefers-color-scheme:dark){
+  html,body{background:#000;color:#f5f5f7}
+  .card,.timeline,.check,.chan-card,.legend{background:#1c1c1e;box-shadow:none}
+  .card .name,.alt-item .body .n{color:#f5f5f7}
+  .card .meta,.alts{border-top-color:#38383a}
+  .card .meta .v{color:#f5f5f7}
+  .card .search{background:#2c2c2e}
+  .check-item{border-bottom-color:#2c2c2e}
+  .check-item .txt{color:#f5f5f7}
+  .check-item .box{border-color:#48484a}
+  .tab{background:#1c1c1e;border-color:#38383a;color:#8e8e93}
+  .tab.active{background:#f5f5f7;color:#000;border-color:#f5f5f7}
+  .tl-item,.alt-item{border-bottom-color:#38383a}
+  .tl-body{color:#f5f5f7}
+  .section-title{color:#f5f5f7}
+  .tag-no{background:#1c1c1e;border-color:#38383a;color:#48484a}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>sy 的 618 装机清单</h1>
+  <div class="sub">RTX 5070 Ti 16GB · 2K 144Hz 3A · A+C 版（主推 + 备选 + 价格规则）</div>
+  <div class="total">
+    <span class="num">14288</span>
+    <span class="u">元 (含显示器键鼠)</span>
+  </div>
+  <div class="budget">主机 12636 · 外设 1652 · 超 1.4w ≈ 288</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" data-tab="list">清单</div>
+  <div class="tab" data-tab="chan">渠道</div>
+  <div class="tab" data-tab="time">时间线</div>
+  <div class="tab" data-tab="check">下单检查</div>
+</div>
+
+<div class="section active" id="list">
+
+  <div class="tip">
+    <b>怎么看这份清单</b>：每个部件都列了主推和备选，并附「什么价格值得换」。搜价时按价格规则决定买主推还是换备选。
+  </div>
+
+  <div class="legend">
+    <div class="row"><span class="tag tag-main">主推</span><div>我最推荐、整体最稳的那一个</div></div>
+    <div class="row"><span class="tag tag-eq">平替</span><div>同级别、价格接近，蹲到好价可替</div></div>
+    <div class="row"><span class="tag tag-up">贵替</span><div>多花点确实更好，小钱换大提升</div></div>
+    <div class="row"><span class="tag tag-down">略低</span><div>预算紧时退一步，不伤核心需求</div></div>
+    <div class="row"><span class="tag tag-no">不推</span><div>看起来像但别买，会踩坑</div></div>
+  </div>
+
+  <div class="section-title"><span class="dot"></span>主机核心 <span class="count">8 件 · ¥12,636</span></div>
+
+  <!-- CPU -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="label">CPU</div>
+        <div class="name">AMD Ryzen 7 9700X</div>
+      </div>
+      <div class="price">¥1800</div>
+    </div>
+    <div class="meta">
+      <div class="row"><span class="k">搜索</span><span class="v"><span class="search">9700X 盒装</span></span></div>
+      <div class="row"><span class="k">提示</span><span class="v">优先看「9700X 板U套装」，可省 ¥200</span></div>
+    </div>
+    <div class="alts">
+      <div class="alts-title">备选方案</div>
+      <div class="alt-item"><span class="tag tag-main">主推</span><div class="body"><span class="n">9700X 盒装</span> <span class="p">¥1800</span><div class="note">蹲价目标 ¥1400（朋友给的实战价）</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">9700X 板U套装</span> <span class="p">≈ ¥2650</span><div class="note">同 B650M MORTAR 一起买可省 ¥200</div></div></div>
+      <div class="alt-item"><span class="tag tag-down">略低</span><div class="body"><span class="n">AMD R7 7700</span> <span class="p">¥1499</span><div class="note">省 ¥300，性能差 8%，同为 AM5 可升</div></div></div>
+      <div class="alt-item"><span class="tag tag-up">贵替</span><div class="body"><span class="n">9800X3D</span> <span class="p">≈ ¥2800</span><div class="note">纯游戏 +15–20%，但 +¥1000 不符「小钱」</div></div></div>
+      <div class="alt-item"><span class="tag tag-no">不推</span><div class="body"><span class="n">Intel i5-14600K</span><div class="note">跨平台、要换主板，不再建议</div></div></div>
+    </div>
+    <div class="rule"><b>价格规则</b>：9700X ≤ ¥1500 直接下单 · ≤ ¥1400 为最理想价 · ≥ ¥1700 改看板U套装</div>
+    <div class="chan">
+      <b>渠道</b>：<span class="c-jd">京东 AMD 自营</span>（默认） ·
+      <span class="c-tm">天猫 AMD 旗舰</span>（可） ·
+      <span class="c-pdd">拼多多百亿补贴</span>（可比价，需认准百补标）
+    </div>
+  </div>
+
+  <!-- 主板 -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="label">主板</div>
+        <div class="name">微星 MAG B650M MORTAR WIFI</div>
+      </div>
+      <div class="price">¥1099</div>
+    </div>
+    <div class="meta">
+      <div class="row"><span class="k">搜索</span><span class="v"><span class="search">B650M MORTAR WIFI 迫击炮</span></span></div>
+      <div class="row"><span class="k">确认</span><span class="v">DDR5 版本，不是 DDR4</span></div>
+    </div>
+    <div class="alts">
+      <div class="alts-title">备选方案</div>
+      <div class="alt-item"><span class="tag tag-main">主推</span><div class="body"><span class="n">微星 B650M MORTAR WIFI</span> <span class="p">¥1099</span><div class="note">做工供电成熟，WiFi 6E + 2.5G</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">华硕 TUF B650M-PLUS WIFI</span> <span class="p">≈ ¥1199</span><div class="note">供电接近，售后略好</div></div></div>
+      <div class="alt-item"><span class="tag tag-up">贵替</span><div class="body"><span class="n">微星 B850M MORTAR WIFI</span> <span class="p">+¥100</span><div class="note">带 WiFi 7，仅你要换 WiFi 7 路由器时值</div></div></div>
+      <div class="alt-item"><span class="tag tag-down">略低</span><div class="body"><span class="n">B650M 非 WIFI 版</span> <span class="p">-¥150</span><div class="note">预算紧再考虑，但你要 WiFi</div></div></div>
+      <div class="alt-item"><span class="tag tag-no">不推</span><div class="body"><span class="n">B650 丐板 / 杂牌 A620</span><div class="note">供电差，带 9700X + 5070 Ti 不稳</div></div></div>
+    </div>
+    <div class="rule"><b>价格规则</b>：MORTAR 单买 ≤ ¥999 冲 · 和 9700X 套装 ≤ ¥2650 可直接合单</div>
+    <div class="chan">
+      <b>渠道</b>：<span class="c-jd">京东 微星自营</span>（默认） ·
+      <span class="c-tm">天猫 微星旗舰</span>（可） ·
+      <span class="c-pdd">拼多多</span>（不推，主板售后麻烦）
+    </div>
+  </div>
+
+  <!-- 显卡 -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="label">显卡 <span class="badge b-hot">必冲</span></div>
+        <div class="name">微星魔龙 RTX 5070 Ti GAMING TRIO 16GB</div>
+      </div>
+      <div class="price">¥5299</div>
+    </div>
+    <div class="meta">
+      <div class="row"><span class="k">搜索</span><span class="v"><span class="search">5070 Ti 魔龙</span></span></div>
+      <div class="row"><span class="k">必核</span><span class="v">必须官方旗舰店或京东自营，防矿卡</span></div>
+    </div>
+    <div class="alts">
+      <div class="alts-title">备选方案</div>
+      <div class="alt-item"><span class="tag tag-main">主推</span><div class="body"><span class="n">微星魔龙 5070 Ti Gaming Trio</span> <span class="p">¥5299</span><div class="note">三风扇温控好，长期低噪</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">技嘉 5070 Ti Gaming OC</span> <span class="p">≈ ¥5299</span><div class="note">同级同价，蹲到好价就换</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">华硕 TUF 5070 Ti</span> <span class="p">≈ ¥5399</span><div class="note">用料扎实，售后硬</div></div></div>
+      <div class="alt-item"><span class="tag tag-down">略低</span><div class="body"><span class="n">微星 Ventus 3X 5070 Ti</span> <span class="p">¥4899</span><div class="note">丐版，满载略吵，功能不缩水</div></div></div>
+      <div class="alt-item"><span class="tag tag-no">不推</span><div class="body"><span class="n">5060 Ti 16GB</span><div class="note">128-bit 位宽，2K 高画质 3A 吃力</div></div></div>
+      <div class="alt-item"><span class="tag tag-no">不推</span><div class="body"><span class="n">任何二手 / 拆封 / 工包</span><div class="note">矿卡风险高，和你稳定性偏好冲突</div></div></div>
+    </div>
+    <div class="rule"><b>价格规则</b>：魔龙 ≤ ¥5299 可冲 · ≤ ¥5099 是好价 · ≥ ¥5499 退回 Ventus 丐版 ¥4899</div>
+    <div class="chan">
+      <b>渠道</b>：<span class="c-jd">京东自营 / 微星旗舰</span>（默认） ·
+      <span class="c-tm">天猫 微星/技嘉/华硕旗舰</span>（可） ·
+      <span class="c-pdd">百亿补贴</span>（仅官方授权店，非授权一律不买）
+    </div>
+  </div>
+
+  <!-- 内存 -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="label">内存</div>
+        <div class="name">金百达刃 DDR5-6000 32GB CL30</div>
+      </div>
+      <div class="price">¥1699</div>
+    </div>
+    <div class="meta">
+      <div class="row"><span class="k">搜索</span><span class="v"><span class="search">金百达 刃 DDR5 6000 32GB</span></span></div>
+      <div class="row"><span class="k">必核</span><span class="v">CL30 / 海力士 A-die / 支持 AMD EXPO</span></div>
+    </div>
+    <div class="alts">
+      <div class="alts-title">备选方案</div>
+      <div class="alt-item"><span class="tag tag-main">主推</span><div class="body"><span class="n">金百达刃 32GB (2×16) CL30</span> <span class="p">¥1699</span><div class="note">海力士 A-die，甜点频率</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">金百达银爵 32GB CL30</span> <span class="p">¥1499</span><div class="note">朋友推荐款，省 ¥200</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">光威神策 32GB CL30</span> <span class="p">¥1599</span><div class="note">金百达缺货时的备份</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">阿斯加特 TUF 联名 32GB CL30</span> <span class="p">¥1699</span><div class="note">RGB 好看，性能同级</div></div></div>
+      <div class="alt-item"><span class="tag tag-no">不推</span><div class="body"><span class="n">DDR5-6400 / 6800 高频条</span><div class="note">AMD 7000/9000 默认 6000 CL30 甜点</div></div></div>
+      <div class="alt-item"><span class="tag tag-no">不推</span><div class="body"><span class="n">¥1000 出头的便宜条</span><div class="note">多是三星/镁光普通 die，时序松</div></div></div>
+    </div>
+    <div class="rule"><b>价格规则</b>：金百达刃 ≤ ¥1699 可冲 · ≤ ¥1499 为好价 · ≥ ¥1799 退银爵 ¥1499</div>
+    <div class="chan">
+      <b>渠道</b>：<span class="c-jd">京东自营 / 金百达旗舰</span>（默认） ·
+      <span class="c-tm">天猫金百达旗舰</span>（可） ·
+      <span class="c-pdd">百亿补贴</span>（可比价，必须晒单验颗粒）
+    </div>
+  </div>
+
+  <!-- SSD -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="label">SSD</div>
+        <div class="name">三星 990 PRO 2TB (无散热片)</div>
+      </div>
+      <div class="price">¥1849</div>
+    </div>
+    <div class="meta">
+      <div class="row"><span class="k">搜索</span><span class="v"><span class="search">990 PRO 2TB</span></span></div>
+      <div class="row"><span class="k">型号</span><span class="v">MZ-V9P2T0BW，无散热片版</span></div>
+    </div>
+    <div class="alts">
+      <div class="alts-title">备选方案</div>
+      <div class="alt-item"><span class="tag tag-main">主推</span><div class="body"><span class="n">三星 990 PRO 2TB</span> <span class="p">¥1849</span><div class="note">持续写入不掉速，剪辑素材有感</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">WD SN850X 2TB</span> <span class="p">¥1699</span><div class="note">同级方案 B，DRAM 缓存有实感</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">金士顿 KC3000 2TB</span> <span class="p">¥1599</span><div class="note">老牌可靠，体验接近</div></div></div>
+      <div class="alt-item"><span class="tag tag-down">略低</span><div class="body"><span class="n">致态 TiPlus 7100 2TB</span> <span class="p">¥1299</span><div class="note">国产长江存储，日常游戏够用</div></div></div>
+      <div class="alt-item"><span class="tag tag-no">不推</span><div class="body"><span class="n">990 EVO Plus</span><div class="note">和 990 PRO 差一档，别买错</div></div></div>
+      <div class="alt-item"><span class="tag tag-no">不推</span><div class="body"><span class="n">任何 QLC 颗粒盘</span><div class="note">写入掉速严重</div></div></div>
+    </div>
+    <div class="rule"><b>价格规则</b>：990 PRO ≤ ¥1899 可冲 · ≤ ¥1799 好价 · ≥ ¥2100 退 SN850X ¥1699</div>
+    <div class="chan">
+      <b>渠道</b>：<span class="c-jd">京东 三星自营</span>（默认） ·
+      <span class="c-tm">天猫 三星官方</span>（可） ·
+      <span class="c-pdd">百亿补贴</span>（谨慎，认准百补标 + 三星官方）
+    </div>
+  </div>
+
+  <!-- 电源 -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="label">电源</div>
+        <div class="name">鑫谷昆仑 KL-850G ATX3.0</div>
+      </div>
+      <div class="price">¥559</div>
+    </div>
+    <div class="meta">
+      <div class="row"><span class="k">搜索</span><span class="v"><span class="search">鑫谷 昆仑 850</span></span></div>
+      <div class="row"><span class="k">必核</span><span class="v">ATX3.0 + 原生 12V-2×6 接口</span></div>
+    </div>
+    <div class="alts">
+      <div class="alts-title">备选方案</div>
+      <div class="alt-item"><span class="tag tag-main">主推</span><div class="body"><span class="n">鑫谷昆仑 KL-850G</span> <span class="p">¥559</span><div class="note">金牌全模组，原生 12V-2×6</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">长城 X7 850W</span> <span class="p">≈ ¥599</span><div class="note">金牌全模组，用料扎实</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">安钛克 HCG850</span> <span class="p">≈ ¥699</span><div class="note">金牌 + 10 年质保，售后顶</div></div></div>
+      <div class="alt-item"><span class="tag tag-up">贵替</span><div class="body"><span class="n">振华 LEADEX VII Gold 850W</span> <span class="p">¥799+</span><div class="note">白金级平台，长期稳</div></div></div>
+      <div class="alt-item"><span class="tag tag-no">不推</span><div class="body"><span class="n">750W 以下</span><div class="note">5070 Ti 300W，瞬态尖峰不够</div></div></div>
+      <div class="alt-item"><span class="tag tag-no">不推</span><div class="body"><span class="n">非 ATX3.0 / 需转接头的</span><div class="note">用 8pin 转 12V-2×6 有烧风险</div></div></div>
+    </div>
+    <div class="rule"><b>价格规则</b>：鑫谷昆仑 850 ≤ ¥559 可冲 · ≤ ¥499 是好价 · ≥ ¥649 改长城 X7</div>
+    <div class="chan">
+      <b>渠道</b>：<span class="c-jd">京东自营 / 品牌旗舰</span>（默认） ·
+      <span class="c-tm">天猫品牌旗舰</span>（可） ·
+      <span class="c-pdd">百亿补贴</span>（可比价）
+    </div>
+  </div>
+
+  <!-- 散热 -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="label">散热</div>
+        <div class="name">利民 FS140 双塔风冷</div>
+      </div>
+      <div class="price">¥189</div>
+    </div>
+    <div class="meta">
+      <div class="row"><span class="k">搜索</span><span class="v"><span class="search">利民 FS140</span></span></div>
+      <div class="row"><span class="k">提示</span><span class="v">9700X 65W，风冷绰绰有余</span></div>
+    </div>
+    <div class="alts">
+      <div class="alts-title">备选方案</div>
+      <div class="alt-item"><span class="tag tag-main">主推</span><div class="body"><span class="n">利民 FS140</span> <span class="p">¥189</span><div class="note">六热管 140mm，长期安静</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">利民 PA120 SE</span> <span class="p">¥129</span><div class="note">经典款，便宜 ¥60 性能接近</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">九州风神 AK620</span> <span class="p">¥239</span><div class="note">颜值好看，双塔 6 热管</div></div></div>
+      <div class="alt-item"><span class="tag tag-up">贵替</span><div class="body"><span class="n">利民 FC140 / Peerless Assassin 140</span> <span class="p">¥259</span><div class="note">压 9800X3D / 后期 9950X 更稳</div></div></div>
+      <div class="alt-item"><span class="tag tag-no">不推</span><div class="body"><span class="n">240 水冷</span><div class="note">9700X 不需要，噪音未必低</div></div></div>
+    </div>
+    <div class="rule"><b>价格规则</b>：FS140 ≤ ¥189 可冲 · ≥ ¥219 改 PA120 SE ¥129</div>
+    <div class="chan">
+      <b>渠道</b>：<span class="c-jd">京东 利民自营</span>（默认） ·
+      <span class="c-tm">天猫利民旗舰</span>（可） ·
+      <span class="c-pdd">百亿补贴</span>（可）
+    </div>
+  </div>
+
+  <!-- 机箱 -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="label">机箱</div>
+        <div class="name">追风者 XT523 (PH-XT523P1C_BK01C)</div>
+      </div>
+      <div class="price">¥242</div>
+    </div>
+    <div class="meta">
+      <div class="row"><span class="k">搜索</span><span class="v"><span class="search">追风者 XT523</span></span></div>
+      <div class="row"><span class="k">提示</span><span class="v">前网孔 + 支持显卡 360mm</span></div>
+    </div>
+    <div class="alts">
+      <div class="alts-title">备选方案</div>
+      <div class="alt-item"><span class="tag tag-main">主推</span><div class="body"><span class="n">追风者 XT523</span> <span class="p">¥242</span><div class="note">前网孔风道好，空间宽裕</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">先马趣造 4</span> <span class="p">¥229</span><div class="note">性价比同级，预装 4 风扇</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">乔思伯 D31 Mesh</span> <span class="p">¥299</span><div class="note">颜值高，带屏版本再 +¥100</div></div></div>
+      <div class="alt-item"><span class="tag tag-up">贵替</span><div class="body"><span class="n">分形工艺 Pop Air</span> <span class="p">¥399</span><div class="note">做工好，静音调性</div></div></div>
+      <div class="alt-item"><span class="tag tag-no">不推</span><div class="body"><span class="n">前面板是大玻璃的海景房</span><div class="note">前进风差，5070 Ti 夏天吃亏</div></div></div>
+    </div>
+    <div class="rule"><b>价格规则</b>：XT523 ≤ ¥249 可冲 · ≥ ¥279 改先马趣造 4</div>
+    <div class="chan">
+      <b>渠道</b>：<span class="c-jd">京东自营</span>（默认） · <span class="c-tm">天猫</span>（可） · <span class="c-pdd">百亿补贴</span>（可）
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot"></span>外设 <span class="count">4 件 · ¥1,652</span></div>
+
+  <!-- 显示器 -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="label">显示器</div>
+        <div class="name">KTC H27T22S 27" 2K 165Hz</div>
+      </div>
+      <div class="price">¥1399</div>
+    </div>
+    <div class="meta">
+      <div class="row"><span class="k">搜索</span><span class="v"><span class="search">KTC H27T22S</span></span></div>
+      <div class="row"><span class="k">规格</span><span class="v">27" 2K Fast IPS 165Hz ΔE&lt;2</span></div>
+    </div>
+    <div class="alts">
+      <div class="alts-title">备选方案</div>
+      <div class="alt-item"><span class="tag tag-main">主推</span><div class="body"><span class="n">KTC H27T22S</span> <span class="p">¥1399</span><div class="note">2K 165Hz 甜点价位</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">HKC G24H2 / VG253PM</span> <span class="p">¥1199</span><div class="note">便宜 ¥200，规格接近</div></div></div>
+      <div class="alt-item"><span class="tag tag-up">贵替</span><div class="body"><span class="n">AOC Q27G3Z</span> <span class="p">¥1499</span><div class="note">180Hz ΔE&lt;1，调色更准</div></div></div>
+      <div class="alt-item"><span class="tag tag-up">贵替</span><div class="body"><span class="n">LG 27GP850 Nano IPS</span> <span class="p">¥1899</span><div class="note">色彩强，游戏创作都顶</div></div></div>
+      <div class="alt-item"><span class="tag tag-no">不推</span><div class="body"><span class="n">广告机 / 曲面 VA 1500R</span><div class="note">响应速度差，游戏拖影</div></div></div>
+    </div>
+    <div class="rule"><b>价格规则</b>：KTC ≤ ¥1399 可冲 · ≤ ¥1299 好价 · 若差价 ≤ ¥100 可直接升到 AOC Q27G3Z</div>
+    <div class="chan">
+      <b>渠道</b>：<span class="c-jd">京东 KTC 自营</span>（默认） ·
+      <span class="c-tm">天猫 KTC 旗舰</span>（可） ·
+      <span class="c-pdd">百亿补贴</span>（可，显示器适合比价）
+    </div>
+  </div>
+
+  <!-- 键盘 -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="label">键盘</div>
+        <div class="name">达尔优 A84 机械红轴</div>
+      </div>
+      <div class="price">¥129</div>
+    </div>
+    <div class="meta">
+      <div class="row"><span class="k">搜索</span><span class="v"><span class="search">达尔优 A84</span></span></div>
+      <div class="row"><span class="k">避坑</span><span class="v">选红轴，不要青轴（太吵）</span></div>
+    </div>
+    <div class="alts">
+      <div class="alts-title">备选方案</div>
+      <div class="alt-item"><span class="tag tag-main">主推</span><div class="body"><span class="n">达尔优 A84 红轴</span> <span class="p">¥129</span><div class="note">75% 布局 + 热插拔</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">MIIIW Art Z830</span> <span class="p">¥149</span><div class="note">有线，手感更扎实</div></div></div>
+      <div class="alt-item"><span class="tag tag-up">贵替</span><div class="body"><span class="n">ikbc W200 / C87</span> <span class="p">¥299</span><div class="note">樱桃轴，用 5 年不坏</div></div></div>
+      <div class="alt-item"><span class="tag tag-down">略低</span><div class="body"><span class="n">雷柏 V500PRO</span> <span class="p">¥99</span><div class="note">最便宜够用款</div></div></div>
+    </div>
+    <div class="rule"><b>价格规则</b>：达尔优 A84 ≤ ¥129 可冲 · 不必为键盘超支</div>
+    <div class="chan">
+      <b>渠道</b>：<span class="c-jd">京东</span>（默认） · <span class="c-tm">天猫</span>（可） · <span class="c-pdd">百亿补贴</span>（可）
+    </div>
+  </div>
+
+  <!-- 鼠标 -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="label">鼠标</div>
+        <div class="name">罗技 G102 有线版</div>
+      </div>
+      <div class="price">¥109</div>
+    </div>
+    <div class="meta">
+      <div class="row"><span class="k">搜索</span><span class="v"><span class="search">罗技 G102</span></span></div>
+      <div class="row"><span class="k">规格</span><span class="v">有线，8000 DPI，HERO 引擎</span></div>
+    </div>
+    <div class="alts">
+      <div class="alts-title">备选方案</div>
+      <div class="alt-item"><span class="tag tag-main">主推</span><div class="body"><span class="n">罗技 G102</span> <span class="p">¥109</span><div class="note">有线，最便宜耐用款</div></div></div>
+      <div class="alt-item"><span class="tag tag-eq">平替</span><div class="body"><span class="n">罗技 G304 无线</span> <span class="p">¥169</span><div class="note">无线更清爽，+¥60</div></div></div>
+      <div class="alt-item"><span class="tag tag-up">贵替</span><div class="body"><span class="n">雷柏 VT9 Pro</span> <span class="p">¥199</span><div class="note">国产旗舰级，PAW3395 引擎</div></div></div>
+      <div class="alt-item"><span class="tag tag-down">略低</span><div class="body"><span class="n">华硕 TUF M3 Gen II</span> <span class="p">¥69</span><div class="note">最低兜底</div></div></div>
+    </div>
+    <div class="rule"><b>价格规则</b>：G102 ≤ ¥109 可冲 · 无线偏好且差价 ≤ ¥60 直接升 G304</div>
+    <div class="chan">
+      <b>渠道</b>：<span class="c-jd">京东 罗技自营</span>（默认） ·
+      <span class="c-tm">天猫罗技旗舰</span>（可） ·
+      <span class="c-pdd">百亿补贴</span>（可，鼠标容错高）
+    </div>
+  </div>
+
+  <!-- 鼠标垫 -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="label">鼠标垫</div>
+        <div class="name">加厚款电竞鼠标垫</div>
+      </div>
+      <div class="price">¥15</div>
+    </div>
+    <div class="meta">
+      <div class="row"><span class="k">搜索</span><span class="v"><span class="search">电竞鼠标垫 加厚</span></span></div>
+    </div>
+    <div class="alts">
+      <div class="alts-title">备选方案</div>
+      <div class="alt-item"><span class="tag tag-main">主推</span><div class="body"><span class="n">任意加厚电竞垫 80×30cm</span> <span class="p">¥15</span></div></div>
+      <div class="alt-item"><span class="tag tag-up">贵替</span><div class="body"><span class="n">赛睿 QcK Heavy</span> <span class="p">¥79</span><div class="note">顺滑耐用，值升</div></div></div>
+    </div>
+    <div class="chan">
+      <b>渠道</b>：<span class="c-pdd">拼多多</span>（15 块钱的东西哪家便宜买哪家）
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="row"><span class="k">主机合计</span><span class="v">¥12,636</span></div>
+    <div class="row"><span class="k">外设合计</span><span class="v">¥1,652</span></div>
+    <div class="row total"><span class="k">整机合计</span><span class="v">¥14,288</span></div>
+  </div>
+
+  <div class="tip">
+    <b>蹲到朋友价的空间</b>：若 9700X 蹲到 ¥1400、内存换银爵 ¥1499、SSD 退 SN850X ¥1699，可压到约 ¥13,438。多出来的 800–900 元可升到 AOC Q27G3Z 显示器或换 G304 无线鼠标。
+  </div>
+
+</div>
+
+<div class="section" id="chan">
+
+  <div class="tip">
+    <b>核心原则</b>：不是只能京东，而是按风险分级。越贵、越易翻车的，越往上靠京东自营和品牌旗舰。
+  </div>
+
+  <div class="chan-card">
+    <div class="h">京东自营 / 品牌官方旗舰店 <span class="lv lv-1">默认</span></div>
+    <div>最低风险。售后顺、价保好、物流稳。</div>
+    <div class="desc">优先买：显卡、主板、内存、SSD、CPU、电源。</div>
+  </div>
+
+  <div class="chan-card">
+    <div class="h">天猫官方旗舰店 <span class="lv lv-2">可买</span></div>
+    <div>本质和京东品牌旗舰等价，但物流/客服略慢一点。</div>
+    <div class="desc">适合：显示器、键鼠、散热、机箱、电源。</div>
+  </div>
+
+  <div class="chan-card">
+    <div class="h">拼多多百亿补贴 <span class="lv lv-3">部分品类可</span></div>
+    <div>价格可能最优，但必须是「百补标 + 官方授权店」。</div>
+    <div class="desc">可以买：CPU、SSD、显示器、键鼠、散热、机箱。<br>
+    <b>更谨慎：</b>显卡、主板、内存（翻车成本高）。</div>
+  </div>
+
+  <div class="chan-card">
+    <div class="h">淘宝普通店 / 小红书私货 <span class="lv lv-4">不建议</span></div>
+    <div>资质不明、售后飘，对这套预算没必要冒险。</div>
+    <div class="desc">除非极度信任的熟人店，否则不碰硬件。</div>
+  </div>
+
+  <div class="chan-card">
+    <div class="h">二手 / 工包 / 拆封 <span class="lv lv-4">不碰</span></div>
+    <div>和你的稳定性偏好冲突，尤其显卡和电源。</div>
+    <div class="desc">省的钱不够补心态损耗。</div>
+  </div>
+
+  <div class="tip">
+    <b>比价顺序建议</b>：先在京东锁定「下手价」，再去天猫/拼多多看是否更便宜。差价 &lt; ¥50 直接京东；&gt; ¥100 且是授权店，可切换渠道。
+  </div>
+
+</div>
+
+<div class="section" id="time">
+
+  <div class="tip">
+    <b>关键规律</b>：618 不是越晚越便宜。预售 5/29 和开门红 6/1 才是真正的谷底。
+  </div>
+
+  <div class="section-title"><span class="dot"></span>阶段一 · 做功课</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">5/25–28</div>
+      <div class="tl-body">把清单每件都加到京东<b>心愿单</b>和拼多多<b>收藏</b>，双平台降价提醒都打开。用「慢慢买」查历史最低价。</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot"></span>阶段二 · 预售冲主力</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">5/29 0:00</div>
+      <div class="tl-body">🥇 <b>显卡 5070 Ti 魔龙</b>，最抢手；京东自营/微星旗舰优先，不碰非授权店</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">5/29–31</div>
+      <div class="tl-body">🥈 <b>CPU 9700X 或板U套装</b>；京东套装和拼多多百补都可比，差价&gt;¥150 才切</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">5/29–31</div>
+      <div class="tl-body">🥉 <b>三星 990 PRO 2TB</b>；京东自营为主，拼多多看清百补标再切</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">5/29–31</div>
+      <div class="tl-body">主板（没买套装时）、金百达内存（有预售价就冲）</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot"></span>阶段三 · 开门红扫尾</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">6/1 0:00</div>
+      <div class="tl-body">鑫谷昆仑电源、KTC 显示器（天猫/京东同价就任选）</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">6/1–3</div>
+      <div class="tl-body">散热 FS140、机箱 XT523、达尔优键盘、罗技 G102 鼠标（键鼠可大胆去拼多多百补）</div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="dot"></span>阶段四 · 补漏和价保</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">6/15–20</div>
+      <div class="tl-body">京东订单点<b>申请价保</b>（30 天价保自动退差）。缺货的补货后再买。补鼠标垫、线材等小件。</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <b>隐藏技巧</b>：微星家显卡+主板一起买满 5000 减 300；京东 PLUS 会员 618 有 ¥99/年活动，单次就回本。
+  </div>
+
+</div>
+
+<div class="section" id="check">
+
+  <div class="section-title"><span class="dot"></span>每单下手前必核</div>
+
+  <div class="check">
+    <div class="check-item"><div class="box"></div><div class="txt">卖家是「京东自营 / 品牌官方旗舰 / 百补授权店」</div></div>
+    <div class="check-item"><div class="box"></div><div class="txt">发票开具方是品牌方或平台自营</div></div>
+    <div class="check-item"><div class="box"></div><div class="txt">商品详情页显示「正品保证」</div></div>
+    <div class="check-item"><div class="box"></div><div class="txt">质保年限明确（CPU/显卡/SSD 都有）</div></div>
+  </div>
+
+  <div class="section-title"><span class="dot"></span>规格硬核对</div>
+
+  <div class="check">
+    <div class="check-item"><div class="box"></div><div class="txt">内存时序是「CL30」不是 CL32/CL36/CL40</div></div>
+    <div class="check-item"><div class="box"></div><div class="txt">内存颗粒「海力士 A-die」+ 支持 AMD EXPO</div></div>
+    <div class="check-item"><div class="box"></div><div class="txt">显卡是「原盒装」不是「工包/二手」</div></div>
+    <div class="check-item"><div class="box"></div><div class="txt">SSD 是「无散热片」版本（主板自带）</div></div>
+    <div class="check-item"><div class="box"></div><div class="txt">电源「ATX3.0」和「原生 12V-2×6」</div></div>
+    <div class="check-item"><div class="box"></div><div class="txt">主板是「DDR5」版本（不是 DDR4）</div></div>
+    <div class="check-item"><div class="box"></div><div class="txt">键盘是「红轴」（不是青轴）</div></div>
+  </div>
+
+  <div class="section-title"><span class="dot"></span>渠道核对（新增）</div>
+
+  <div class="check">
+    <div class="check-item"><div class="box"></div><div class="txt">显卡 / 主板 / 内存 → 京东自营或品牌旗舰</div></div>
+    <div class="check-item"><div class="box"></div><div class="txt">拼多多下单前确认「百亿补贴」标 + 官方授权</div></div>
+    <div class="check-item"><div class="box"></div><div class="txt">拒绝一切「拆封 / 工包 / 二手 / 矿卡」</div></div>
+    <div class="check-item"><div class="box"></div><div class="txt">价格对比过两个平台，差价 ≥ ¥100 才切</div></div>
+  </div>
+
+  <div class="section-title"><span class="dot"></span>下单后立即做</div>
+
+  <div class="check">
+    <div class="check-item"><div class="box"></div><div class="txt">收藏订单，方便 618 末申请价保</div></div>
+    <div class="check-item"><div class="box"></div><div class="txt">截图保存商品规格页，防止收到货不一致</div></div>
+    <div class="check-item"><div class="box"></div><div class="txt">每件到货当天检查外观，7 天内才能无理由退</div></div>
+  </div>
+
+  <div class="tip">
+    <b>手机使用提示</b>：点击方框可以打勾，完成的自动划掉，页面会保存进度。
+  </div>
+
+</div>
+
+<div class="footer">sy 的 618 清单 · A+C 版 · 2026-04-28 更新</div>
+
+<script>
+const tabs = document.querySelectorAll('.tab');
+const sections = document.querySelectorAll('.section');
+tabs.forEach(t=>{
+  t.addEventListener('click',()=>{
+    tabs.forEach(x=>x.classList.remove('active'));
+    sections.forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+const items = document.querySelectorAll('.check-item');
+const STORAGE_KEY = 'sy-618-checklist-v2';
+const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+items.forEach((item,i)=>{
+  if(saved[i]) item.classList.add('done');
+  item.addEventListener('click',()=>{
+    item.classList.toggle('done');
+    const state = {};
+    items.forEach((it,j)=>{ if(it.classList.contains('done')) state[j]=1 });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  });
+});
+</script>
+
+</body>
+</html>
